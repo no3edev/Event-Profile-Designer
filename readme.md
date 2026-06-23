@@ -1,6 +1,6 @@
 # Event Profile Designer
 
-A browser-based tool for designing and comparing Digital Nose sensor event signatures. Build physically plausible response curves, overlay multiple profiles, and export them as JSON or SVG.
+A browser-based tool for designing and comparing No3e sensor event signatures. Build physically plausible response curves, overlay multiple profiles, and export them as JSON or SVG.
 
 ---
 
@@ -167,7 +167,7 @@ Each profile carries a `channel` field (`'voc'` by default). To add CO₂ or par
 
 ### Future integration points
 
-The tool is designed to slot into a larger Digital Nose system:
+The tool is designed to slot into a larger No3e system:
 
 - **Event library** — profiles are plain serialisable objects; a library is a JSON array of them.
 - **WebSocket streams** — `CurveModel.evaluate(t, params)` can be called per-tick against a live timestamp to overlay a real sensor trace on the designed curve.
