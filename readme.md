@@ -6,12 +6,6 @@ A browser-based tool for designing and comparing No3e sensor event signatures. B
 
 ---
 
-## Getting started
-
-Open `event-profile-designer.html` in any modern browser. No installation, build step, or server required.
-
----
-
 ## Concepts
 
 An **event profile** represents how a sensor responds over time to a physical event — a person walking past, a gas stove igniting, traffic idling nearby. The shape is governed by five parameters:
