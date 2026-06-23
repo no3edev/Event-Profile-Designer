@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Profile Designer — Digital Nose</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+</head>
+<body>
+
+<div id="topbar">
+  <div class="logo"><span>No3e</span> · Event Profile Designer</div>
+  <div class="spacer"></div>
+  <span style="font-size:11px;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;flex-shrink:0">Display</span>
+  <div id="mode-group">
+    <label title="Each curve scaled to its own peak — compare shape only">
+      <input type="radio" name="dispmode" value="normalized" onchange="setDisplayMode('normalized')">
+      Normalized shape
+    </label>
+    <label title="Shared time axis, each curve at true amplitude — compare timing">
+      <input type="radio" name="dispmode" value="realtime" onchange="setDisplayMode('realtime')" checked>
+      Real-time scale
+    </label>
+    <label title="Both axes fixed 0–1 and 0–tMax — compare magnitude and duration">
+      <input type="radio" name="dispmode" value="absolute" onchange="setDisplayMode('absolute')">
+      Absolute scale
+    </label>
+  </div>
+  <div id="mode-divider"></div>
+  <button class="tbtn" onclick="importJSON()">Import JSON</button>
+  <button class="tbtn" onclick="exportJSON()">Export JSON</button>
+  <button class="tbtn" onclick="exportSVG()">Export SVG</button>
+  <input type="file" id="import-file" accept=".json" onchange="handleImport(event)">
+</div>
+
+<div id="main">
+  <div id="panel">
+    <div class="psec">
+      <span class="psec-label">Profile name</span>
+      <input id="profile-name-input" type="text" placeholder="unnamed" oninput="onNameChange(this.value)">
+    </div>
+    <div class="psec">
+      <span class="psec-label">Parameters</span>
+      <div id="sliders"></div>
+    </div>
+    <div id="plist-header">
+      <span>Profiles</span>
+      <button onclick="addProfile()">+ New</button>
+    </div>
+    <div id="plist"></div>
+    <div id="preset-row">
+      <span class="psec-label">Load preset</span>
+      <select id="preset-select">
+        <option value="">— choose preset —</option>
+        <option value="cooking">cooking</option>
+        <option value="traffic">traffic</option>
+        <option value="occupant">occupant</option>
+        <option value="pedestrian">pedestrian</option>
+        <option value="fragrance">fragrance</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="gwrap">
+    <svg id="gsvg"></svg>
+  </div>
+</div>
+
+<div id="statusbar">
+  <span id="s-mode-badge" style="font-size:10px;padding:2px 7px;border-radius:3px;background:var(--bg3);color:var(--text1);letter-spacing:.05em;text-transform:uppercase">Real-time</span>
+  &nbsp;
+  Peak: <b id="s-peak">—</b> &nbsp; Time to peak: <b id="s-ttp">—</b> &nbsp; Decay to 10%: <b id="s-d10">—</b>
+</div>
+<script type="module" src="js/app.js"></script>
+<script>
+
+</script>
+</body>
+</html> 
