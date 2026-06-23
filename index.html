@@ -16,30 +16,33 @@
   <span style="font-size:11px;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;flex-shrink:0">Display</span>
   <div id="mode-group">
     <label title="Each curve scaled to its own peak — compare shape only">
-      <input type="radio" name="dispmode" value="normalized" onchange="setDisplayMode('normalized')">
+      <input type="radio" name="dispmode" value="normalized">
+
       Normalized shape
     </label>
     <label title="Shared time axis, each curve at true amplitude — compare timing">
-      <input type="radio" name="dispmode" value="realtime" onchange="setDisplayMode('realtime')" checked>
+      <input type="radio" name="dispmode" value="realtime" checked>
+
       Real-time scale
     </label>
     <label title="Both axes fixed 0–1 and 0–tMax — compare magnitude and duration">
-      <input type="radio" name="dispmode" value="absolute" onchange="setDisplayMode('absolute')">
+      <input type="radio" name="dispmode" value="absolute">
+
       Absolute scale
     </label>
   </div>
   <div id="mode-divider"></div>
-  <button class="tbtn" onclick="importJSON()">Import JSON</button>
-  <button class="tbtn" onclick="exportJSON()">Export JSON</button>
-  <button class="tbtn" onclick="exportSVG()">Export SVG</button>
-  <input type="file" id="import-file" accept=".json" onchange="handleImport(event)">
+<button class="tbtn" id="import-json">Import JSON</button>
+<button class="tbtn" id="export-json">Export JSON</button>
+<button class="tbtn" id="export-svg">Export SVG</button>
+  <input type="file" id="import-file" accept=".json">
 </div>
 
 <div id="main">
   <div id="panel">
     <div class="psec">
       <span class="psec-label">Profile name</span>
-      <input id="profile-name-input" type="text" placeholder="unnamed" oninput="onNameChange(this.value)">
+      <input id="profile-name-input" type="text" placeholder="unnamed">
     </div>
     <div class="psec">
       <span class="psec-label">Parameters</span>
@@ -47,8 +50,8 @@
     </div>
     <div id="plist-header">
       <span>Profiles</span>
-      <button onclick="addProfile()">+ New</button>
-    </div>
+      <button id="add-profile">+ New</button>
+    </div>  
     <div id="plist"></div>
     <div id="preset-row">
       <span class="psec-label">Load preset</span>
@@ -74,8 +77,5 @@
   Peak: <b id="s-peak">—</b> &nbsp; Time to peak: <b id="s-ttp">—</b> &nbsp; Decay to 10%: <b id="s-d10">—</b>
 </div>
 <script type="module" src="js/app.js"></script>
-<script>
-
-</script>
 </body>
 </html> 

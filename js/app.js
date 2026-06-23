@@ -43,24 +43,24 @@ const CurveModel = (() => {
 /* ================================================================
    PROFILES
    ================================================================ */
-const COLORS = ['#4f8ef7','#3ecf8e','#f5a623','#f76f6f','#a78bfa','#2dd4bf','#f472b6','#94a3b8'];
+const COLORS = ['#4f8ef7', '#3ecf8e', '#f5a623', '#f76f6f', '#a78bfa', '#2dd4bf', '#f472b6', '#94a3b8'];
 const PRESETS = {
-  cooking:    { rise:15,  decay:120,  amplitude:0.85, delay:5,  duration:1.2 },
-  traffic:    { rise:90,  decay:600,  amplitude:0.35, delay:20, duration:2.0 },
-  occupant:   { rise:30,  decay:900,  amplitude:0.55, delay:0,  duration:1.0 },
-  pedestrian: { rise:8,   decay:60,   amplitude:0.70, delay:2,  duration:0.7 },
-  fragrance:  { rise:5,   decay:300,  amplitude:0.95, delay:0,  duration:1.5 },
+  cooking: { rise: 15, decay: 120, amplitude: 0.85, delay: 5, duration: 1.2 },
+  traffic: { rise: 90, decay: 600, amplitude: 0.35, delay: 20, duration: 2.0 },
+  occupant: { rise: 30, decay: 900, amplitude: 0.55, delay: 0, duration: 1.0 },
+  pedestrian: { rise: 8, decay: 60, amplitude: 0.70, delay: 2, duration: 0.7 },
+  fragrance: { rise: 5, decay: 300, amplitude: 0.95, delay: 0, duration: 1.5 },
 };
 const PARAM_DEFS = [
-  { key:'rise',      label:'Rise',      min:1,    max:300,  step:1,    fmt: v => Math.round(v)+'s'   },
-  { key:'decay',     label:'Decay',     min:1,    max:1200, step:1,    fmt: v => Math.round(v)+'s'   },
-  { key:'amplitude', label:'Amplitude', min:0.01, max:1,    step:0.01, fmt: v => v.toFixed(2)        },
-  { key:'delay',     label:'Delay',     min:0,    max:300,  step:0.5,  fmt: v => v.toFixed(1)+'s'    },
-  { key:'duration',  label:'Duration',  min:0.1,  max:5,    step:0.05, fmt: v => v.toFixed(2)+'×'    },
+  { key: 'rise', label: 'Rise', min: 1, max: 300, step: 1, fmt: v => Math.round(v) + 's' },
+  { key: 'decay', label: 'Decay', min: 1, max: 1200, step: 1, fmt: v => Math.round(v) + 's' },
+  { key: 'amplitude', label: 'Amplitude', min: 0.01, max: 1, step: 0.01, fmt: v => v.toFixed(2) },
+  { key: 'delay', label: 'Delay', min: 0, max: 300, step: 0.5, fmt: v => v.toFixed(1) + 's' },
+  { key: 'duration', label: 'Duration', min: 0.1, max: 5, step: 0.05, fmt: v => v.toFixed(2) + '×' },
 ];
 
 let profiles = [];
-let activeId  = null;
+let activeId = null;
 let _colorIdx = 0;
 
 /* ── Display mode ── */
@@ -84,7 +84,7 @@ function mkProfile(name, params) {
     visible: true,
     color: COLORS[_colorIdx++ % COLORS.length],
     channel: 'voc',
-    params: { rise:30, decay:200, amplitude:0.7, delay:0, duration:1, ...params },
+    params: { rise: 30, decay: 200, amplitude: 0.7, delay: 0, duration: 1, ...params },
   };
 }
 function activeProfile() { return profiles.find(p => p.id === activeId) || null; }
@@ -118,7 +118,7 @@ function buildSliders() {
       const p = activeProfile();
       if (!p) return;
       p.params[def.key] = val;
-      document.getElementById('sv-'+def.key).textContent = def.fmt(val);
+      document.getElementById('sv-' + def.key).textContent = def.fmt(val);
       render();
     });
     c.appendChild(row);
@@ -127,8 +127,8 @@ function buildSliders() {
 
 function syncSliders(params) {
   PARAM_DEFS.forEach(def => {
-    const el = document.getElementById('sl-'+def.key);
-    const sv = document.getElementById('sv-'+def.key);
+    const el = document.getElementById('sl-' + def.key);
+    const sv = document.getElementById('sv-' + def.key);
     if (el) { el.value = params[def.key]; }
     if (sv) { sv.textContent = def.fmt(params[def.key]); }
   });
@@ -153,8 +153,8 @@ function renderProfileList() {
       <div class="pname"><input value="${escHtml(p.name)}"
         onclick="event.stopPropagation()"
         onchange="renameProfile('${p.id}',this.value)"></div>
-      <button class="pibtn" title="${p.visible?'Hide':'Show'}"
-        onclick="event.stopPropagation();toggleVis('${p.id}')">${p.visible?'●':'○'}</button>
+      <button class="pibtn" title="${p.visible ? 'Hide' : 'Show'}"
+        onclick="event.stopPropagation();toggleVis('${p.id}')">${p.visible ? '●' : '○'}</button>
       <button class="pibtn" title="Duplicate"
         onclick="event.stopPropagation();dupProfile('${p.id}')">⧉</button>
       <button class="pibtn" title="Delete"
@@ -163,17 +163,17 @@ function renderProfileList() {
     list.appendChild(item);
   });
 }
-function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function escHtml(s) { return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 
 function addProfile(params, name) {
-  const p = mkProfile(name || `profile ${profiles.length+1}`, params);
+  const p = mkProfile(name || `profile ${profiles.length + 1}`, params);
   profiles.push(p);
   setActive(p.id);
 }
 function dupProfile(id) {
   const src = profiles.find(p => p.id === id);
   if (!src) return;
-  const p = mkProfile(src.name+' copy', { ...src.params });
+  const p = mkProfile(src.name + ' copy', { ...src.params });
   profiles.push(p);
   setActive(p.id);
 }
@@ -181,7 +181,7 @@ function delProfile(id) {
   if (profiles.length <= 1) return;
   const idx = profiles.findIndex(p => p.id === id);
   profiles = profiles.filter(p => p.id !== id);
-  setActive(profiles[Math.min(idx, profiles.length-1)].id);
+  setActive(profiles[Math.min(idx, profiles.length - 1)].id);
 }
 function renameProfile(id, name) {
   const p = profiles.find(p => p.id === id);
@@ -210,7 +210,7 @@ function loadPreset(key) {
 /* ================================================================
    GRAPH
    ================================================================ */
-const M = { top:32, right:28, bottom:52, left:58 }; // margins
+const M = { top: 32, right: 28, bottom: 52, left: 58 }; // margins
 let gRoot, gGrid, gAxes, gCurves, gHandles;
 // base scales (pixel space, no zoom applied)
 let xBase, yBase;
@@ -220,7 +220,7 @@ let zoomBehavior;
 
 function dims() {
   const el = document.getElementById('gwrap');
-  const W = el.clientWidth  || el.offsetWidth  || 800;
+  const W = el.clientWidth || el.offsetWidth || 800;
   const H = el.clientHeight || el.offsetHeight || 500;
   return { W, H, iW: W - M.left - M.right, iH: H - M.top - M.bottom };
 }
@@ -234,14 +234,14 @@ function initGraph() {
   svg.selectAll('*').remove();
 
   // clip path
-  svg.append('defs').append('clipPath').attr('id','pclip')
+  svg.append('defs').append('clipPath').attr('id', 'pclip')
     .append('rect').attr('width', iW).attr('height', iH);
 
-  gRoot   = svg.append('g').attr('transform', `translate(${M.left},${M.top})`);
-  gGrid   = gRoot.append('g');
-  gAxes   = gRoot.append('g');
-  gCurves = gRoot.append('g').attr('clip-path','url(#pclip)');
-  gHandles= gRoot.append('g').attr('clip-path','url(#pclip)');
+  gRoot = svg.append('g').attr('transform', `translate(${M.left},${M.top})`);
+  gGrid = gRoot.append('g');
+  gAxes = gRoot.append('g');
+  gCurves = gRoot.append('g').attr('clip-path', 'url(#pclip)');
+  gHandles = gRoot.append('g').attr('clip-path', 'url(#pclip)');
 
   // base scales — domain will be updated each render
   xBase = d3.scaleLinear().domain([0, 600]).range([0, iW]);
@@ -277,13 +277,13 @@ function render() {
     // x = normalised time 0→1 (tau = (t-delay)/duration/tp), y = normalised amplitude 0→1
     xDomain = [0, 1];
     yDomain = [0, 1.08];
-    xLabel  = 'Normalised time (τ)';
-    yLabel  = 'Normalised amplitude';
+    xLabel = 'Normalised time (τ)';
+    yLabel = 'Normalised amplitude';
   } else if (displayMode === 'absolute') {
     xDomain = [0, ABS_T_MAX];
     yDomain = [0, 1.08];
-    xLabel  = 'Time (seconds) — fixed scale';
-    yLabel  = 'Response amplitude';
+    xLabel = 'Time (seconds) — fixed scale';
+    yLabel = 'Response amplitude';
   } else {
     // realtime: auto-fit tMax across visible profiles
     const tMax = visible.length
@@ -291,8 +291,8 @@ function render() {
       : 600;
     xDomain = [0, tMax];
     yDomain = [0, 1.08];
-    xLabel  = 'Time (seconds)';
-    yLabel  = 'Response amplitude';
+    xLabel = 'Time (seconds)';
+    yLabel = 'Response amplitude';
   }
 
   xBase.domain(xDomain).range([0, iW]);
@@ -312,36 +312,36 @@ function drawGrid(xs, ys, iW, iH) {
   xs.ticks(10).forEach(t => {
     const x = xs(t);
     if (isNaN(x)) return;
-    gGrid.append('line').attr('class','grid-line')
-      .attr('x1',x).attr('x2',x).attr('y1',0).attr('y2',iH);
+    gGrid.append('line').attr('class', 'grid-line')
+      .attr('x1', x).attr('x2', x).attr('y1', 0).attr('y2', iH);
   });
   ys.ticks(8).forEach(t => {
     const y = ys(t);
     if (isNaN(y)) return;
-    gGrid.append('line').attr('class','grid-line')
-      .attr('x1',0).attr('x2',iW).attr('y1',y).attr('y2',y);
+    gGrid.append('line').attr('class', 'grid-line')
+      .attr('x1', 0).attr('x2', iW).attr('y1', y).attr('y2', y);
   });
 }
 
-function drawAxes(xs, ys, iW, iH, xLabel='Time (seconds)', yLabel='Response amplitude') {
+function drawAxes(xs, ys, iW, iH, xLabel = 'Time (seconds)', yLabel = 'Response amplitude') {
   gAxes.selectAll('*').remove();
   // axis lines
-  gAxes.append('line').attr('class','axis-line').attr('x1',0).attr('x2',iW).attr('y1',iH).attr('y2',iH);
-  gAxes.append('line').attr('class','axis-line').attr('x1',0).attr('x2',0).attr('y1',0).attr('y2',iH);
+  gAxes.append('line').attr('class', 'axis-line').attr('x1', 0).attr('x2', iW).attr('y1', iH).attr('y2', iH);
+  gAxes.append('line').attr('class', 'axis-line').attr('x1', 0).attr('x2', 0).attr('y1', 0).attr('y2', iH);
   // x tick labels
   const xFmt = displayMode === 'normalized'
-    ? t => t.toFixed(2)+'τ'
-    : t => t+'s';
+    ? t => t.toFixed(2) + 'τ'
+    : t => t + 's';
   xs.ticks(8).forEach(t => {
     const x = xs(t);
     if (isNaN(x)) return;
-    gAxes.append('text').attr('class','alabel')
-      .attr('x', x).attr('y', iH+16).attr('text-anchor','middle').text(xFmt(t));
+    gAxes.append('text').attr('class', 'alabel')
+      .attr('x', x).attr('y', iH + 16).attr('text-anchor', 'middle').text(xFmt(t));
   });
   // axis title x
-  gAxes.append('text').attr('class','alabel')
-    .attr('x', iW/2).attr('y', iH+40).attr('text-anchor','middle')
-    .attr('fill','#9aa3b8').text(xLabel);
+  gAxes.append('text').attr('class', 'alabel')
+    .attr('x', iW / 2).attr('y', iH + 40).attr('text-anchor', 'middle')
+    .attr('fill', '#9aa3b8').text(xLabel);
   // y tick labels
   const yFmt = displayMode === 'normalized'
     ? t => t.toFixed(1)
@@ -349,13 +349,13 @@ function drawAxes(xs, ys, iW, iH, xLabel='Time (seconds)', yLabel='Response ampl
   ys.ticks(6).forEach(t => {
     const y = ys(t);
     if (isNaN(y)) return;
-    gAxes.append('text').attr('class','alabel')
-      .attr('x',-8).attr('y', y+4).attr('text-anchor','end').text(yFmt(t));
+    gAxes.append('text').attr('class', 'alabel')
+      .attr('x', -8).attr('y', y + 4).attr('text-anchor', 'end').text(yFmt(t));
   });
   // axis title y
-  gAxes.append('text').attr('class','alabel')
-    .attr('transform',`rotate(-90) translate(${-iH/2},-44)`)
-    .attr('text-anchor','middle').attr('fill','#9aa3b8').text(yLabel);
+  gAxes.append('text').attr('class', 'alabel')
+    .attr('transform', `rotate(-90) translate(${-iH / 2},-44)`)
+    .attr('text-anchor', 'middle').attr('fill', '#9aa3b8').text(yLabel);
 }
 
 /**
@@ -376,8 +376,8 @@ function transformPoints(pts, p) {
     const tauEnd = tp * 7;
     return pts.map(d => {
       const tau = (d.t - delay) / duration; // raw tau
-      const xN  = tauEnd > 0 ? tau / tauEnd : 0; // 0→1
-      const yN  = amplitude > 0 ? d.y / amplitude : 0;
+      const xN = tauEnd > 0 ? tau / tauEnd : 0; // 0→1
+      const yN = amplitude > 0 ? d.y / amplitude : 0;
       return { t: xN, y: yN };
     });
   }
@@ -412,8 +412,8 @@ function drawCurves(visible, xs, ys, iH) {
 
     const areaD = area(tpts);
     const lineD = line(tpts);
-    if (areaD) gCurves.append('path').attr('class','curve-area').attr('d', areaD).attr('fill', p.color);
-    if (lineD) gCurves.append('path').attr('class','curve-path').attr('d', lineD)
+    if (areaD) gCurves.append('path').attr('class', 'curve-area').attr('d', areaD).attr('fill', p.color);
+    if (lineD) gCurves.append('path').attr('class', 'curve-path').attr('d', lineD)
       .attr('stroke', p.color).attr('opacity', p.id === activeId ? 1 : 0.5);
 
     // Profile name label near peak
@@ -431,7 +431,7 @@ function drawCurves(visible, xs, ys, iH) {
     if (!isNaN(labelX) && !isNaN(labelY)) {
       gCurves.append('text')
         .attr('x', labelX).attr('y', labelY)
-        .attr('text-anchor','middle').attr('font-size', 10)
+        .attr('text-anchor', 'middle').attr('font-size', 10)
         .attr('fill', p.color).attr('opacity', 0.75)
         .text(p.name);
     }
@@ -457,46 +457,46 @@ function drawHandles(p, xs, ys, iH) {
   const tailY = Math.max(0, CurveModel.evaluate(tailT, p.params));
 
   // pixel positions — guard NaN
-  const dPx  = xs(delay);
+  const dPx = xs(delay);
   const pkPx = [xs(peakT), ys(peakY)];
   const tlPx = [xs(tailT), ys(tailY)];
 
   if ([dPx, pkPx[0], pkPx[1], tlPx[0], tlPx[1]].some(isNaN)) return;
 
-  const g = gHandles.append('g').attr('class','hgrp');
+  const g = gHandles.append('g').attr('class', 'hgrp');
   const col = p.color;
 
   /* Delay handle */
-  const dh = g.append('g').style('cursor','ew-resize');
-  dh.append('line').attr('x1',dPx).attr('x2',dPx).attr('y1',0).attr('y2',iH)
-    .attr('stroke',col).attr('stroke-width',.8).attr('stroke-dasharray','4,3').attr('opacity',.35);
-  dh.append('circle').attr('cx',dPx).attr('cy',iH-1).attr('r',6).attr('fill',col);
+  const dh = g.append('g').style('cursor', 'ew-resize');
+  dh.append('line').attr('x1', dPx).attr('x2', dPx).attr('y1', 0).attr('y2', iH)
+    .attr('stroke', col).attr('stroke-width', .8).attr('stroke-dasharray', '4,3').attr('opacity', .35);
+  dh.append('circle').attr('cx', dPx).attr('cy', iH - 1).attr('r', 6).attr('fill', col);
   attachDrag(dh, p, xs, ys, 'delay');
 
   /* Peak handle */
-  const ph = g.append('g').style('cursor','move');
-  ph.append('circle').attr('class','handle-ring').attr('cx',pkPx[0]).attr('cy',pkPx[1]).attr('r',11).attr('stroke',col);
-  ph.append('circle').attr('cx',pkPx[0]).attr('cy',pkPx[1]).attr('r',5).attr('fill',col);
-  g.append('text').attr('x',pkPx[0]).attr('y',pkPx[1]-16)
-    .attr('text-anchor','middle').attr('font-size',10).attr('fill','#9aa3b8')
+  const ph = g.append('g').style('cursor', 'move');
+  ph.append('circle').attr('class', 'handle-ring').attr('cx', pkPx[0]).attr('cy', pkPx[1]).attr('r', 11).attr('stroke', col);
+  ph.append('circle').attr('cx', pkPx[0]).attr('cy', pkPx[1]).attr('r', 5).attr('fill', col);
+  g.append('text').attr('x', pkPx[0]).attr('y', pkPx[1] - 16)
+    .attr('text-anchor', 'middle').attr('font-size', 10).attr('fill', '#9aa3b8')
     .text(`peak ${peakY.toFixed(2)}`);
   attachDrag(ph, p, xs, ys, 'peak');
 
   /* Tail / decay handle */
-  const th = g.append('g').style('cursor','ew-resize');
-  th.append('circle').attr('cx',tlPx[0]).attr('cy',tlPx[1]).attr('r',5)
-    .attr('fill','#0d0f12').attr('stroke',col).attr('stroke-width',1.5);
+  const th = g.append('g').style('cursor', 'ew-resize');
+  th.append('circle').attr('cx', tlPx[0]).attr('cy', tlPx[1]).attr('r', 5)
+    .attr('fill', '#0d0f12').attr('stroke', col).attr('stroke-width', 1.5);
   attachDrag(th, p, xs, ys, 'tail');
 }
 
 function attachDrag(el, profile, xs, ys, type) {
   let sp, sparams;
   el.call(d3.drag()
-    .on('start', function(ev) {
+    .on('start', function (ev) {
       sp = { x: ev.x, y: ev.y };
       sparams = { ...profile.params };
     })
-    .on('drag', function(ev) {
+    .on('drag', function (ev) {
       const dtData = xs.invert(ev.x) - xs.invert(sp.x);
       const dyData = ys.invert(ev.y) - ys.invert(sp.y);
       const q = profile.params;
@@ -522,7 +522,7 @@ function attachDrag(el, profile, xs, ys, type) {
 }
 
 /* ── Status bar ── */
-const MODE_LABELS = { normalized:'Normalised', realtime:'Real-time', absolute:'Absolute' };
+const MODE_LABELS = { normalized: 'Normalised', realtime: 'Real-time', absolute: 'Absolute' };
 function updateStatus() {
   const p = activeProfile();
   const badge = document.getElementById('s-mode-badge');
@@ -534,8 +534,8 @@ function updateStatus() {
   const t10 = tp + decay * Math.log(10);
   const d10 = delay + duration * t10;
   document.getElementById('s-peak').textContent = amplitude.toFixed(3);
-  document.getElementById('s-ttp').textContent  = peakT.toFixed(1)+'s';
-  document.getElementById('s-d10').textContent  = d10.toFixed(1)+'s';
+  document.getElementById('s-ttp').textContent = peakT.toFixed(1) + 's';
+  document.getElementById('s-d10').textContent = d10.toFixed(1) + 's';
 }
 
 /* ================================================================
@@ -551,7 +551,7 @@ function exportJSON() {
     [p.channel]: { rise, decay, peakRange: pr },
     meta: { delay, duration, amplitude }
   };
-  dl(JSON.stringify(out, null, 2), p.name+'.json', 'application/json');
+  dl(JSON.stringify(out, null, 2), p.name + '.json', 'application/json');
 }
 function importJSON() { document.getElementById('import-file').click(); }
 function handleImport(e) {
@@ -564,14 +564,14 @@ function handleImport(e) {
       const ch = data.voc || data.co2 || data.pm || {};
       const meta = data.meta || {};
       const params = {
-        rise:      ch.rise      || 30,
-        decay:     ch.decay     || 200,
-        amplitude: meta.amplitude != null ? meta.amplitude : (ch.peakRange ? (ch.peakRange[0]+ch.peakRange[1])/2 : 0.7),
-        delay:     meta.delay   || 0,
-        duration:  meta.duration|| 1,
+        rise: ch.rise || 30,
+        decay: ch.decay || 200,
+        amplitude: meta.amplitude != null ? meta.amplitude : (ch.peakRange ? (ch.peakRange[0] + ch.peakRange[1]) / 2 : 0.7),
+        delay: meta.delay || 0,
+        duration: meta.duration || 1,
       };
       addProfile(params, data.name || 'imported');
-    } catch(err) { alert('Could not parse JSON: '+err.message); }
+    } catch (err) { alert('Could not parse JSON: ' + err.message); }
   };
   reader.readAsText(file);
   e.target.value = '';
@@ -596,15 +596,15 @@ function exportSVG() {
   s += `<line x1="0" x2="${iW}" y1="${iH}" y2="${iH}" stroke="#3a4258"/>`;
   s += `<line x1="0" x2="0" y1="0" y2="${iH}" stroke="#3a4258"/>`;
   xs.ticks(8).forEach(t => {
-    s += `<text x="${xs(t).toFixed(1)}" y="${iH+16}" text-anchor="middle" font-size="11" fill="#5a6278" font-family="sans-serif">${t}s</text>`;
+    s += `<text x="${xs(t).toFixed(1)}" y="${iH + 16}" text-anchor="middle" font-size="11" fill="#5a6278" font-family="sans-serif">${t}s</text>`;
   });
   ys.ticks(6).forEach(t => {
-    s += `<text x="-8" y="${(ys(t)+4).toFixed(1)}" text-anchor="end" font-size="11" fill="#5a6278" font-family="sans-serif">${t.toFixed(2)}</text>`;
+    s += `<text x="-8" y="${(ys(t) + 4).toFixed(1)}" text-anchor="end" font-size="11" fill="#5a6278" font-family="sans-serif">${t.toFixed(2)}</text>`;
   });
 
   visible.forEach(p => {
     const { pts } = CurveModel.sample(p.params, 300, tMax);
-    const d = pts.map((pt,i) => `${i===0?'M':'L'}${xs(pt.t).toFixed(2)},${ys(pt.y).toFixed(2)}`).join(' ');
+    const d = pts.map((pt, i) => `${i === 0 ? 'M' : 'L'}${xs(pt.t).toFixed(2)},${ys(pt.y).toFixed(2)}`).join(' ');
     s += `<path d="${d}" fill="none" stroke="${p.color}" stroke-width="2" stroke-linecap="round"/>`;
     const tp = CurveModel.peakTime(p.params.rise, p.params.decay);
     const ptx = xs(p.params.delay + p.params.duration * tp);
@@ -618,7 +618,7 @@ function exportSVG() {
 
 function dl(content, name, mime) {
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([content], {type: mime}));
+  a.href = URL.createObjectURL(new Blob([content], { type: mime }));
   a.download = name;
   a.click();
 }
@@ -636,16 +636,42 @@ window.exportSVG = exportSVG;
 window.exportJSON = exportJSON;
 
 presetSelect.addEventListener('change', (event) => {
-    loadPreset(event.target.value);
+  loadPreset(event.target.value);
 });
 
-document
-  .getElementById('export-svg')
-  .addEventListener('click', exportSVG);
+function initUI() {
+    // display mode radios
+    const modeRadios = document.querySelectorAll('input[name="dispmode"]');
 
-document
-  .getElementById('export-json')
-  .addEventListener('click', exportJSON);
+    modeRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            setDisplayMode(e.target.value);
+        });
+    });
+
+    // buttons
+    document.getElementById('import-json')
+        .addEventListener('click', importJSON);
+
+    document.getElementById('export-json')
+        .addEventListener('click', exportJSON);
+
+    document.getElementById('export-svg')
+        .addEventListener('click', exportSVG);
+
+    document.getElementById('add-profile')
+        .addEventListener('click', addProfile);
+
+    // file input
+    document.getElementById('import-file')
+        .addEventListener('change', handleImport);
+
+    // text input
+    document.getElementById('profile-name-input')
+        .addEventListener('input', (e) => {
+            onNameChange(e.target.value);
+        });
+}
 
 // Init graph after layout is painted
 requestAnimationFrame(() => {
@@ -654,3 +680,5 @@ requestAnimationFrame(() => {
     window.addEventListener('resize', () => { zt = d3.zoomIdentity; initGraph(); });
   });
 });
+
+initUI();
