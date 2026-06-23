@@ -624,14 +624,28 @@ function dl(content, name, mime) {
 }
 const presetSelect = document.getElementById('preset-select');
 
-presetSelect.addEventListener('change', (event) => {
-    loadPreset(event.target.value);
-});
+
 /* ================================================================
    BOOT
    ================================================================ */
+
 buildSliders();
 addProfile(PRESETS.cooking, 'cooking');
+
+window.exportSVG = exportSVG;
+window.exportJSON = exportJSON;
+
+presetSelect.addEventListener('change', (event) => {
+    loadPreset(event.target.value);
+});
+
+document
+  .getElementById('export-svg')
+  .addEventListener('click', exportSVG);
+
+document
+  .getElementById('export-json')
+  .addEventListener('click', exportJSON);
 
 // Init graph after layout is painted
 requestAnimationFrame(() => {
