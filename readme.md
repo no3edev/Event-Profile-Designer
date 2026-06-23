@@ -2,13 +2,11 @@
 
 A browser-based tool for designing and comparing No3e sensor event signatures. Build physically plausible response curves, overlay multiple profiles, and export them as JSON or SVG.
 
-[RUN DEMO](https://no3edev.github.io/Event-Profile-Designer/)
-
 ---
 
 ## Getting started
 
-Open `event-profile-designer.html` in any modern browser. No installation, build step, or server required.
+[RUN DEMO](https://no3edev.github.io/Event-Profile-Designer/)
 
 ---
 
