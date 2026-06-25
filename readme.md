@@ -12,7 +12,6 @@ A browser-based tool for designing and comparing No3e sensor event signatures. B
 
 ---
 
->>>>>>> 258440c05ad76f37aa9d2f3215238e6be4aa6036
 ## Concepts
 
 An **event profile** represents how a sensor responds over time to a physical event — a person walking past, a gas stove igniting, traffic idling nearby. The shape is governed by five parameters:
@@ -172,8 +171,6 @@ Each profile carries a `channel` field (`'voc'` by default). To add CO₂ or par
 
 ### Future integration points
 
-The tool is designed to slot into a larger No3e system:
-
 - **Event library** — profiles are plain serialisable objects; a library is a JSON array of them.
 - **WebSocket streams** — `CurveModel.evaluate(t, params)` can be called per-tick against a live timestamp to overlay a real sensor trace on the designed curve.
 - **Timeline editor** — the x-axis already operates in absolute seconds; sequencing multiple events is a matter of rendering them at their respective `delay` offsets.
@@ -181,11 +178,3 @@ The tool is designed to slot into a larger No3e system:
 - **Multi-channel view** — each profile can carry per-channel params (`voc`, `co2`, `pm`) and the graph renderer can be extended to show stacked subplots.
 
 ---
-
-## Browser compatibility
-
-<<<<<<< HEAD
-Tested in Chrome 120+, Firefox 121+, Safari 17+. Requires SVG and ES2020. No network requests are made at runtime — D3 is loaded from cdnjs at page load only. The responsive layout is tested down to 360 px viewport width.
-=======
-Tested in Chrome 120+, Firefox 121+, Safari 17+. Requires SVG and ES2020. No network requests are made at runtime — D3 is loaded from cdnjs at page load only.
->>>>>>> 258440c05ad76f37aa9d2f3215238e6be4aa6036
