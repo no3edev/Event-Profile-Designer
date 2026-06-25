@@ -34,36 +34,30 @@ This produces a physically plausible one-sided response with a smooth attack and
 
 ### Left panel
 
+The panel contains all editing controls. On desktop it is always visible on the left side of the window. On mobile, tap the **☰** button in the top bar to open it as a slide-in drawer; tap the backdrop or the **✕** button to dismiss it.
+
 - **Profile name** — rename the active profile.
-- **Parameter sliders** — adjust Rise, Decay, Amplitude, Delay, and Duration. Values update the graph in real time.
-- **Profiles list** — all open profiles. Click to make one active. Use the buttons to toggle visibility (●/○), duplicate (⧉), or delete (✕). Double-click a name to rename inline.
+- **Parameter sliders** — adjust Rise, Decay, Amplitude, Delay, and Duration. The graph updates in real time as you drag.
+- **Display mode** *(mobile only, in panel)* — switch between Normalized, Real-time, and Absolute scale without opening the top bar.
+- **Actions** *(mobile only, in panel)* — Import JSON, Export JSON, and Export SVG buttons are duplicated here for easy thumb reach.
+- **Profiles list** — all open profiles. Click to make one active. Use the inline buttons to toggle visibility (●/○), duplicate (⧉), or delete (✕). Click a name to rename it inline.
 - **Load preset** — populate the active profile from a built-in preset.
 
 ### Graph
 
-The main canvas shows all visible profiles overlaid. Scroll or pinch to zoom; drag the background to pan.
+The main canvas shows all visible profiles overlaid. Scroll or pinch to zoom; drag the background to pan. Profile names are rendered near each curve's peak.
 
-Three **draggable handles** appear on the active profile:
-
-| Handle | Location | What dragging does |
-|--------|----------|--------------------|
-| Delay (filled circle on x-axis) | Event start | Horizontal → shifts Delay |
-| Peak (double-ring circle) | Curve maximum | Horizontal → adjusts Rise + Duration · Vertical → adjusts Amplitude |
-| Tail (open circle) | Decay section | Horizontal → adjusts Decay |
-
-All handle movements immediately sync back to the sliders.
+All curve editing is done through the sliders — the graph is a read-only view of the current parameter state.
 
 ---
 
 ## Display modes
 
-Switch between modes using the segmented control in the top bar. Changing mode resets the zoom.
+Switch between modes using the segmented control in the top bar (desktop) or the Display mode selector in the panel (mobile). Changing mode resets the zoom.
 
 ### Normalized shape
 
 Each curve is independently scaled so its peak reaches y = 1.0. The time axis runs 0 → 1τ, normalised to each curve's own peak time. Amplitude and duration differences are stripped away — useful for comparing pure rise/decay character between profiles regardless of intensity.
-
-> Draggable handles are hidden in this mode because the coordinate transform makes drag behaviour ambiguous.
 
 ### Real-time scale *(default)*
 
@@ -146,7 +140,15 @@ A mode badge on the left shows the current display mode.
 
 ## Architecture notes
 
-The codebase is organised into logical modules kept within a single HTML file for portability:
+The codebase is split across three files for clarity:
+
+| File | Responsibility |
+|------|---------------|
+| `index.html` | Structure and layout; desktop and mobile markup |
+| `style.css` | Design tokens, component styles, responsive breakpoints |
+| `app.js` | All application logic, organised into modules (see below) |
+
+### JS module breakdown
 
 | Module | Responsibility |
 |--------|---------------|
@@ -154,8 +156,8 @@ The codebase is organised into logical modules kept within a single HTML file fo
 | Profile manager | CRUD for profile objects, preset loading, colour assignment |
 | Slider UI | Builds and synchronises parameter controls |
 | Graph renderer | D3-based SVG rendering, zoom/pan, display mode transforms |
-| Handle system | Draggable control points with inverse-scale drag math |
 | Exporters | JSON serialisation, SVG string generation, file download |
+| Mobile panel | Slide-in drawer open/close, responsive show/hide logic |
 
 ### Extending to new sensor channels
 
@@ -175,4 +177,4 @@ The tool is designed to slot into a larger No3e system:
 
 ## Browser compatibility
 
-Tested in Chrome 120+, Firefox 121+, Safari 17+. Requires SVG and ES2020. No network requests are made at runtime — D3 is loaded from cdnjs at page load only.
+Tested in Chrome 120+, Firefox 121+, Safari 17+. Requires SVG and ES2020. No network requests are made at runtime — D3 is loaded from cdnjs at page load only. The responsive layout is tested down to 360 px viewport width.

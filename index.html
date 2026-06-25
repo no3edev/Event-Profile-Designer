@@ -6,40 +6,47 @@
 <title>Event Profile Designer — No3e</title>
 <link rel="stylesheet" href="css/style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-
 </head>
 <body>
 
 <div id="topbar">
+  <button id="menu-toggle" aria-label="Open panel" aria-expanded="false">☰</button>
   <div class="logo"><span>No3e</span> · Event Profile Designer</div>
   <div class="spacer"></div>
-  <span style="font-size:11px;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;flex-shrink:0">Display</span>
-  <div id="mode-group">
-    <label title="Each curve scaled to its own peak — compare shape only">
-      <input type="radio" name="dispmode" value="normalized">
-
-      Normalized shape
-    </label>
-    <label title="Shared time axis, each curve at true amplitude — compare timing">
-      <input type="radio" name="dispmode" value="realtime" checked>
-
-      Real-time scale
-    </label>
-    <label title="Both axes fixed 0–1 and 0–tMax — compare magnitude and duration">
-      <input type="radio" name="dispmode" value="absolute">
-
-      Absolute scale
-    </label>
+  <div id="mode-wrap">
+    <span>Display</span>
+    <div id="mode-group">
+      <label title="Each curve scaled to its own peak — compare shape only">
+        <input type="radio" name="dispmode" value="normalized"> Normalized shape
+      </label>
+      <label title="Shared time axis, each curve at true amplitude — compare timing">
+        <input type="radio" name="dispmode" value="realtime" checked> Real-time scale
+      </label>
+      <label title="Both axes fixed 0–1 and 0–tMax — compare magnitude and duration">
+        <input type="radio" name="dispmode" value="absolute"> Absolute scale
+      </label>
+    </div>
   </div>
   <div id="mode-divider"></div>
-<button class="tbtn" id="import-json">Import JSON</button>
-<button class="tbtn" id="export-json">Export JSON</button>
-<button class="tbtn" id="export-svg">Export SVG</button>
+  <div id="topbar-right">
+    <button class="tbtn" id="import-json">Import JSON</button>
+    <button class="tbtn" id="export-json">Export JSON</button>
+    <button class="tbtn" id="export-svg">Export SVG</button>
+  </div>
   <input type="file" id="import-file" accept=".json">
 </div>
 
+<!-- panel backdrop (mobile overlay) -->
+<div id="panel-backdrop"></div>
+
 <div id="main">
   <div id="panel">
+    <!-- mobile close button -->
+    <div id="panel-header-mobile" style="display:none;align-items:center;justify-content:space-between;padding:10px 16px 6px;border-bottom:1px solid var(--border);flex-shrink:0">
+      <span style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.07em">Panel</span>
+      <button id="panel-close" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px;border-radius:3px">✕</button>
+    </div>
+
     <div class="psec">
       <span class="psec-label">Profile name</span>
       <input id="profile-name-input" type="text" placeholder="unnamed">
@@ -48,10 +55,31 @@
       <span class="psec-label">Parameters</span>
       <div id="sliders"></div>
     </div>
+
+    <!-- mobile display mode (shown only on small screens) -->
+    <div id="mobile-mode-section" class="psec" style="display:none">
+      <span class="psec-label">Display mode</span>
+      <select id="mobile-mode-select" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:5px;color:var(--text0);padding:5px 8px;font-size:12px;cursor:pointer;outline:none">
+        <option value="realtime">Real-time scale</option>
+        <option value="normalized">Normalized shape</option>
+        <option value="absolute">Absolute scale</option>
+      </select>
+    </div>
+
+    <!-- mobile export buttons -->
+    <div id="mobile-actions" class="psec" style="display:none;gap:6px;flex-direction:column">
+      <span class="psec-label">Actions</span>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="tbtn" id="mobile-import-json" style="flex:1">Import JSON</button>
+        <button class="tbtn" id="mobile-export-json" style="flex:1">Export JSON</button>
+        <button class="tbtn" id="mobile-export-svg" style="flex:1">Export SVG</button>
+      </div>
+    </div>
+
     <div id="plist-header">
       <span>Profiles</span>
       <button id="add-profile">+ New</button>
-    </div>  
+    </div>
     <div id="plist"></div>
     <div id="preset-row">
       <span class="psec-label">Load preset</span>
@@ -73,9 +101,11 @@
 
 <div id="statusbar">
   <span id="s-mode-badge" style="font-size:10px;padding:2px 7px;border-radius:3px;background:var(--bg3);color:var(--text1);letter-spacing:.05em;text-transform:uppercase">Real-time</span>
-  &nbsp;
-  Peak: <b id="s-peak">—</b> &nbsp; Time to peak: <b id="s-ttp">—</b> &nbsp; Decay to 10%: <b id="s-d10">—</b>
+  <span class="stat-item">Peak: <b id="s-peak">—</b></span>
+  <span class="stat-item">Time to peak: <b id="s-ttp">—</b></span>
+  <span class="stat-item">Decay to 10%: <b id="s-d10">—</b></span>
 </div>
+
 <script type="module" src="js/app.js"></script>
 </body>
-</html> 
+</html>
