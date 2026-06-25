@@ -585,3 +585,11 @@ requestAnimationFrame(() => {
 });
 
 initUI();
+
+// Expose functions used in inline onclick attributes —
+// type="module" scopes everything to the module, so these
+// must be explicitly attached to window to work from HTML.
+window.toggleVis     = toggleVis;
+window.dupProfile    = dupProfile;
+window.delProfile    = delProfile;
+window.renameProfile = renameProfile;
