@@ -4,8 +4,6 @@ A browser-based tool for designing and comparing No3e sensor event signatures. B
 
 ---
 
-<<<<<<< HEAD
-=======
 ## Getting started
 
 [RUN DEMO](https://no3edev.github.io/Event-Profile-Designer/)
