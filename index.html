@@ -19,10 +19,10 @@
       <label title="Each curve scaled to its own peak — compare shape only">
         <input type="radio" name="dispmode" value="normalized"> Normalized shape
       </label>
-      <label title="Shared time axis, each curve at true amplitude — compare timing">
+      <label title="Shared time axis, each curve amplitude-normalised — compare timing">
         <input type="radio" name="dispmode" value="realtime" checked> Real-time scale
       </label>
-      <label title="Both axes fixed 0–1 and 0–tMax — compare magnitude and duration">
+      <label title="Both axes fixed 0–1 and 0–tMax — compare timing and duration">
         <input type="radio" name="dispmode" value="absolute"> Absolute scale
       </label>
     </div>
@@ -51,6 +51,30 @@
       <span class="psec-label">Profile name</span>
       <input id="profile-name-input" type="text" placeholder="unnamed">
     </div>
+
+    <!-- Channel selector -->
+    <div class="psec">
+      <span class="psec-label">Channel</span>
+      <select id="channel-select" class="pselect">
+        <option value="voc">VOC</option>
+        <option value="co2">CO₂</option>
+        <option value="pm1">PM1</option>
+        <option value="pm25">PM2.5</option>
+        <option value="pm10">PM10</option>
+      </select>
+    </div>
+
+    <!-- Group assignment -->
+    <div class="psec">
+      <span class="psec-label">Group (event)</span>
+      <div style="display:flex;gap:6px;align-items:center">
+        <select id="group-select" class="pselect" style="flex:1">
+          <option value="">— none —</option>
+        </select>
+        <button id="add-group" class="tbtn" style="flex-shrink:0;font-size:11px;padding:4px 8px" title="New group">+ Group</button>
+      </div>
+    </div>
+
     <div class="psec">
       <span class="psec-label">Parameters</span>
       <div id="sliders"></div>
@@ -59,7 +83,7 @@
     <!-- mobile display mode (shown only on small screens) -->
     <div id="mobile-mode-section" class="psec" style="display:none">
       <span class="psec-label">Display mode</span>
-      <select id="mobile-mode-select" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:5px;color:var(--text0);padding:5px 8px;font-size:12px;cursor:pointer;outline:none">
+      <select id="mobile-mode-select" class="pselect">
         <option value="realtime">Real-time scale</option>
         <option value="normalized">Normalized shape</option>
         <option value="absolute">Absolute scale</option>
@@ -83,13 +107,14 @@
     <div id="plist"></div>
     <div id="preset-row">
       <span class="psec-label">Load preset</span>
-      <select id="preset-select">
+      <select id="preset-select" class="pselect">
         <option value="">— choose preset —</option>
-        <option value="cooking">cooking</option>
-        <option value="traffic">traffic</option>
-        <option value="occupant">occupant</option>
-        <option value="pedestrian">pedestrian</option>
+        <option value="cooking">cooking (group)</option>
+        <option value="traffic">traffic (group)</option>
+        <option value="occupant">occupant (group)</option>
+        <option value="pedestrian">pedestrian (group)</option>
         <option value="fragrance">fragrance</option>
+        <option value="vacuum">vacuum (group)</option>
       </select>
     </div>
   </div>

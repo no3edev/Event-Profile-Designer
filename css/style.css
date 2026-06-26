@@ -183,3 +183,76 @@ body{display:flex;flex-direction:column}
   .logo{font-size:12px}
   .tbtn{font-size:11px;padding:4px 8px}
 }
+/* ================================================================
+   MULTI-CHANNEL & GROUP ADDITIONS
+   ================================================================ */
+
+/* Shared select style (replaces inline styles for consistency) */
+.pselect {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text0);
+  padding: 5px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+}
+.pselect:focus { border-color: var(--accent); }
+
+/* Channel tag badge shown on each profile row */
+.pch-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  flex-shrink: 0;
+  opacity: 0.85;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* Group header row in the profile list */
+.pgroup-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 8px 4px;
+  margin-top: 6px;
+}
+.pgroup-header:first-child { margin-top: 0; }
+.pgroup-header--ungrouped { margin-top: 10px; }
+
+.pgroup-label {
+  flex: 1;
+  font-size: 10px;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 600;
+}
+
+/* Smaller icon buttons used inside group headers */
+.pibtn-sm {
+  font-size: 10px !important;
+  padding: 2px 5px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 3px !important;
+  background: var(--bg2) !important;
+  color: var(--text2) !important;
+}
+.pibtn-sm:hover { color: var(--text0) !important; background: var(--bg3) !important; }
+
+/* Empty-group placeholder */
+.pgroup-empty {
+  font-size: 11px;
+  color: var(--text2);
+  padding: 4px 16px 8px;
+  font-style: italic;
+}
+
+/* Profile rows inside a group get a left indent */
+.pgroup-header + .pi,
+.pgroup-header + .pi ~ .pi {
+  margin-left: 8px;
+}
